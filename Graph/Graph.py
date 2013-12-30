@@ -144,7 +144,11 @@ g.connectNodes(b,e)
 g.connectNodes(b,f)
 g.connectNodes(c,f)
 g.connectNodes(b,c)
-g.findPath(a,f)
+g.connectNodes(e,i)
+g.connectNodes(e,h)
+g.connectNodes(f,h)
+
+
 print "DFS"
 g.dfs()
 print "BFS"

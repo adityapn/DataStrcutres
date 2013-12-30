@@ -117,7 +117,8 @@ class BinarySearchTree:
         if math.fabs(left-right) < 2:
             return True
         return False
-    
+
+    # Path from root to leafs
     def allPaths(self):
         def paths(node,path=""):
             if node is None:
@@ -134,6 +135,28 @@ class BinarySearchTree:
             if node.left is None and node.right is None:
                 print path
         paths(self.root,"")
+
+    # Sum of the path
+
+    def findPathSum(self,findsum):
+        def find(node,findsum,tempSum=0,path=""):
+            if node is None:
+                return
+            
+            tempSum += node.value
+            if node.left is not None and node.right is not None:                
+                path = path + str(node.value) + " -> "
+            else:
+                path = path +str(node.value)
+            if tempSum == findsum:
+                print "Found it with "+path
+                return
+            if node.left is not None:
+                find(node.left,findsum,tempSum,path)
+            if node.right is not None:
+                find(node.right,findsum,tempSum,path)
+
+        find(self.root,findsum)
         
     # Least / Lowest Common Ansistor
     def lca(self,left,right):
@@ -221,9 +244,9 @@ class BinarySearchTree:
 
         find(self.root,number)
 
-
     # Convers bst to Double linked list
     # Do bfs of the tree and add it to list to form double ll
+
     def bstToDoubleLL(self):
         queue = Queue.Queue()
         queue.put(self.root)
@@ -245,7 +268,6 @@ class BinarySearchTree:
     # it's successor , so which every is smaller value in the right sub tree is
     # successor , if there is no right sub tree then move towards ancestors for which
     # our node is left sub tree 
-
     # OR other way is do inorder and use binary search to find the elements
     # and next element will be successors
     
@@ -300,6 +322,7 @@ class BinarySearchTree:
     #        2         6
     #     /   \         \ 
     #    8      4          5
+    
     def findRightBrother(self,node_val):
         queue = Queue.Queue()
         levels = Queue.Queue()
@@ -363,7 +386,6 @@ class BinarySearchTree:
                 stack.append(temp_node.right)            
             if temp_node.left is not None:
                 stack.append(temp_node.left)
-
     
     # Printing tree using Post order [Iterative Way]
     def IterativePostorderTraversal(self):
@@ -396,7 +418,6 @@ def possibleBsts(number_of_elements):
         return elements_sum
 
 tree = BinarySearchTree()
-
 items = [40,20,80,10,30,60,100]
 for item in items:
     tree.add(item)
@@ -404,4 +425,4 @@ for item in items:
 print "Post order"
 tree.postorder()
 print "Iterative post"
-tree.IterativePostorderTraversal()
+tree.findPathSum(220)
