@@ -320,7 +320,7 @@ class BinarySearchTree:
     #             10
     #          /      \
     #        2         6
-    #     /   \         \ 
+    #      /   \         \ 
     #    8      4          5
     
     def findRightBrother(self,node_val):
@@ -353,6 +353,25 @@ class BinarySearchTree:
                     return next_node
                 else:
                     return None
+
+    # Biggest leaf to leaf path in binray tree
+    def biggest_leafToleaf(self):
+        def leaf_to_leaf(node,path,paths):
+            if node is None:
+                return
+            path = path + 1
+            if node.left is not None:
+                leaf_to_leaf(node.left,path,paths)
+            if node.right is not None:
+                leaf_to_leaf(node.right,path,paths)
+            if node.left is None and node.right is None:
+                paths.append(path)
+        leftpaths = []
+        leaf_to_leaf(self.root.left,0,leftpaths)
+        rightpaths = []
+        leaf_to_leaf(self.root.right,0,rightpaths)
+        max_path = max(leftpaths) + max(rightpaths) + 1
+        print "Left max is "+str(max_path)
 
     # All traversals without using recurssion
     # Inorder without recurssion
@@ -401,6 +420,80 @@ class BinarySearchTree:
                 temp_stack.append(temp.right)
         while post_order:
             print post_order.pop()
+
+    # Make node sum of its children [Sum Tree]
+    def MakeSumOfChildren(self):
+
+        def getSum(node,final_sum):
+            if node is None:
+                return
+            final_sum = final_sum + node.value
+            if node.left is not None:
+                getSum(node.left,final_sum)
+            if node.right is not None:
+                getSum(node.right,final_sum)
+
+            return final_sum
+        
+        def makeSum(node):
+            if node is None:
+                return
+            final_sum = 0
+            if node.left is not None:
+                final_sum = final_sum + getSum(node.left,0)
+                #print "Left sum "+str(final_sum)
+            if node.right is not None:
+                final_sum = final_sum + getSum(node.right,0)
+                #print "Right sum "+str(final_sum)
+            if node.left is not None and node.right is not None:
+                node.value = final_sum
+            makeSum(node.left)
+            makeSum(node.right)
+            
+        makeSum(self.root)
+    
+    # Find path between any two nodes in a binary search tree
+    def findPathBetweenNodes(self,node1_val,node2_val):
+
+        def paths(node,val,path):
+            path1 , path2 = "" , ""            
+            if node is  None:
+                return
+            path = path +str(node.value)+" -> "
+            if node.value == val:
+                return path       
+            if val < node.value:
+                path1 = paths(node.left,val,path)
+            if val > node.value:
+                path2 = paths(node.right,val,path)
+            return path1+ path2
+        def find(node , val1 , val2,path=""):
+            if node is None:
+                return
+            # If both the nodes are present right side of root 
+            if val1 > node.value and val2 > node.value:
+                find(node.right,val1,val2,path)
+
+            # If both the nodes are present left side of root 
+            if val1 < node.value and val2 < node.value:
+                find(node.left,val1,val2,path)
+            
+           # If they are different sides of tree
+            left_path = None
+            right_path = None
+            break_up_parent = str(node.value)
+            if val1 < node.value and val2 > node.value:                
+                left_path = paths(node.left,val1,"")
+                right_path = paths(node.right,val2,"")                
+            elif val1 > node.value and val2 < node.value:
+                left_path = paths(node.left,val2,"")
+                right_path = paths(node.right,val1,"")
+            
+            print str(left_path)+" "+break_up_parent+"  -> "+str(right_path)
+
+        find(self.root,node1_val,node2_val)
+          
+                        
                 
 # Based on the given number of elements it tells how many bsts can be formed
 def possibleBsts(number_of_elements):
@@ -422,7 +515,5 @@ items = [40,20,80,10,30,60,100]
 for item in items:
     tree.add(item)
 
-print "Post order"
-tree.postorder()
-print "Iterative post"
-tree.findPathSum(220)
+tree.MakeSumOfChildren()
+tree.inorder()
