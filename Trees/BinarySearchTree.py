@@ -15,7 +15,7 @@ class BinarySearchTree:
                 node = self.Node(data)
                 node.left = None
                 node.right = None
-            elif data <= node.value:
+           elif data <= node.value:
                 node.left = add_into(node.left,data)
             else:
                 node.right = add_into(node.right,data)
@@ -96,6 +96,11 @@ class BinarySearchTree:
                 return 0
             return 1 + max(depth(node.left),depth(node.right))
         return depth(node)
+
+    # Deepest left sub tree
+    def left_deep(self):
+        deep_left = self.height(self.root.left)
+        return deep_left
 
     def minNode(self,Findnode=root):
        node = Findnode
@@ -195,7 +200,7 @@ class BinarySearchTree:
                 start = start + 1
             elif Sum > result:
                 end = end - 1
-                
+    # Longest path in the tree                
     def diameter(self):
         that = self
         def find_diameter(node):
@@ -511,9 +516,10 @@ def possibleBsts(number_of_elements):
         return elements_sum
 
 tree = BinarySearchTree()
-items = [40,20,80,10,30,60,100]
+#items = [40,20,80,10,30,60,100]
+items = [40,30,20,35,33,31,34,37]
 for item in items:
     tree.add(item)
 
 tree.MakeSumOfChildren()
-tree.inorder()
+print tree.diameter()
