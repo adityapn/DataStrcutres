@@ -81,17 +81,45 @@ class LinkedList:
             temp = temp.nextPtr
         return
 
-    # reverse using links 
-    def reverse(self):
-        one , two , three = self.linked , None , None        
-        while one is not None:
-            self.linked = one
-            two = one.nextPtr
-            one.nextPtr = three
-            three = one
-            one = two            
-        return
+    # reverse using iterative way
     
+    def reverse(self):
+        current = self.linked
+        nextNode = None
+        prevNode = None
+        while current is not None:
+            nextNode = current.nextPtr
+            current.nextPtr = prevNode
+            prevNode = current
+            current = nextNode
+            
+        self.linked = prevNode
+        return
+
+    
+    # Revese only first k nodes of the list
+    def reverse_only_k(self,count):
+        def reverse(node,count):
+            current = self.linked
+            prev = None
+            next = None
+            for i in range(0,count):
+                next = current.nextPtr
+                current.nextPtr = prev
+                prev = current
+                current = next
+            self.linked.nextPtr = current
+        
+            while current:
+                current = current.nextPtr
+
+            if current:
+                current.nextPtr = reverse(current.nextPtr,count)
+
+            return prev
+        self.linked = reverse(self.linked,count)
+        
+   
     # if linked list is a plaindrome
     def isPalindrome(self):
         fast = self.linked
@@ -236,12 +264,9 @@ def main():
     li.append(9)
     li.append(10)
     li.append(11)
-    print "Normal List"
+    print "Before "
     li.prints()
-    print "After swap"
-    li.swapDiff(3)
-        
-
+   
 if __name__ == "__main__":main()
         
     
