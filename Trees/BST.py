@@ -400,22 +400,10 @@ class BST:
 
 def main():
     tree = BST()
-    li = [20,10,30,5,15,25,35,6]
+    li = [-10,20,10,30,5,15,25,35,6]
     for i in li:
         tree.add(i)
 
-    print("Inorder")
-    tree.inorder()
-    print("Preorder")
-    tree.preorder()
-    print("Post order")
-    tree.postorder()
-    print("There are "+str(tree.numOfNodes()))
-    print("Level Order")
-    tree.LevelOrder()
-    tree.findMin()
-    tree.findMax()
-    print "Is it complete tree ?"
-    tree.isComplete()
+    tree.Triplet()
 
 if __name__ == "__main__":main()

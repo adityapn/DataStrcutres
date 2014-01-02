@@ -14,9 +14,9 @@ class BinarySearchTree:
             if node is None:
                 node = self.Node(data)
                 node.left = None
-                node.right = None
-           elif data <= node.value:
-                node.left = add_into(node.left,data)
+                node.right = None            
+            elif data <= node.value:
+               node.left = add_into(node.left,data)
             else:
                 node.right = add_into(node.right,data)
             return node
@@ -30,6 +30,17 @@ class BinarySearchTree:
                 inorder_trav(node.right)
         inorder_trav(self.root)
 
+    def toList(self):
+        items = []
+        def getList(node):
+            if node is not None:                
+                getList(node.left)
+                items.append(node.value)
+                getList(node.right)
+        getList(self.root)
+        return items
+        
+        
     def preorder(self):
         def pre(node):
             if node is not None:
@@ -497,7 +508,52 @@ class BinarySearchTree:
             print str(left_path)+" "+break_up_parent+"  -> "+str(right_path)
 
         find(self.root,node1_val,node2_val)
-          
+
+    def triplet(self):
+        # does an inorder traversal to ger numbers in sorted orders 
+        numbers = self.toList()
+        negative = []
+        positive = []
+
+        for number in numbers:
+            if number < 0:
+                negative.append(number)
+            else:
+                positive.append(number)
+
+        # Code for triplet
+        if len(negative) > 1:        
+            counter = 0
+            final = len(negative) - 1
+            while counter < final:            
+                tempSum = -(negative[counter] + negative[counter+1])            
+                # if for the equivalent +ve sum in positive array
+                found = None
+                try:
+                    found = positive.index(tempSum)
+                except Exception:
+                    found = None
+                
+                if found is not None:
+                    print "Numbers are "+str(negative[counter])+","+str(negative[counter+1])+" and "+str(positive[found])
+                    return
+                counter += 1
+
+        if len(positive) > 1:
+            counter = 0
+            final = len(positive) - 1
+            while counter < final:            
+                tempSum = -(positive[counter] + positive[counter+1])            
+                # if for the equivalent +ve sum in positive array
+                found = None
+                try:
+                    found = negative.index(tempSum)
+                except Exception:
+                    found = None            
+                if found is not None:
+                    print "Numbers are "+str(positive[counter])+","+str(positive[counter+1])+" and "+str(negative[found])
+                    return
+                counter += 1
                         
                 
 # Based on the given number of elements it tells how many bsts can be formed
@@ -516,10 +572,8 @@ def possibleBsts(number_of_elements):
         return elements_sum
 
 tree = BinarySearchTree()
-#items = [40,20,80,10,30,60,100]
-items = [40,30,20,35,33,31,34,37]
+items = [-15,40,20,80,10,5,60,100]
 for item in items:
     tree.add(item)
 
-tree.MakeSumOfChildren()
-print tree.diameter()
+tree.triplet()

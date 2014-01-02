@@ -43,9 +43,8 @@ class LinkedList:
         return
 #Swap alternate nodes in a Singly linked List
     def swap_alternative(self):
-        if self.linked is None and self.linked.nextPtr is None:
+        if self.linked is None or self.linked.nextPtr is None:
             return
-
         present = self.linked
         next = None
         temp = None
@@ -61,8 +60,7 @@ class LinkedList:
                 temp.nextPtr = next
                 temp = present
             present = present.nextPtr
-
-
+        
     def count(self):
         loop = self.linked
         count = 0
@@ -264,9 +262,9 @@ def main():
     li.append(9)
     li.append(10)
     li.append(11)
-    print "Before "
+    li.prints()
+    print "after"
+    li.swap_alternative()
     li.prints()
    
 if __name__ == "__main__":main()
-        
-    
