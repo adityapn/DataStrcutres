@@ -94,6 +94,19 @@ class LinkedList:
         self.linked = prevNode
         return
 
+    # Reverse using recurssion
+
+    def reverse_recussion(self):
+        def reverse(node):
+            if node.nextPtr == None:
+                self.linked = node
+                return
+            reverse(node.nextPtr)
+            next = node.nextPtr
+            next.nextPtr = node
+            node.nextPtr = None
+        reverse(self.linked)
+
     
     # Revese only first k nodes of the list
     def reverse_only_k(self,count):
@@ -116,7 +129,25 @@ class LinkedList:
 
             return prev
         self.linked = reverse(self.linked,count)
-        
+
+    # Reverse pair of node example : 1->2->3->4->5->6 then the function should change it to 2->1->4->3->6->5
+
+    def reverse_pairs(self):
+        if self.linked is None or self.linked.nextPtr is None:
+            return
+        prev = self.linked
+        current  = self.linked.nextPtr
+        self.linked = current
+        while True:
+            next = current.nextPtr
+            current.nextPtr = prev
+
+            if next is None or next.nextPtr is None:
+                prev.nextPtr = next
+                break
+            prev.nextPtr = next.nextPtr
+            prev = next
+            current = prev.nextPtr
    
     # if linked list is a plaindrome
     def isPalindrome(self):
@@ -254,17 +285,16 @@ class LinkedList:
 def main():
     li = LinkedList()
     li.append(1)    
-    li.append(6)
     li.append(2)
-    li.append(16)
+    li.append(3)
+    li.append(4)
+    li.append(5)
+    li.append(6)
     li.append(7)
-    li.append(8)
-    li.append(9)
-    li.append(10)
-    li.append(11)
     li.prints()
     print "after"
-    li.swap_alternative()
+    li.reverse_pairs()
     li.prints()
    
 if __name__ == "__main__":main()
+
