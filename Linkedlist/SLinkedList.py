@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding: latin-1
+
 class LinkedList:
 
     class Node:
@@ -41,26 +42,7 @@ class LinkedList:
         t.number = data
         loop.nextPtr = t
         return
-#Swap alternate nodes in a Singly linked List
-    def swap_alternative(self):
-        if self.linked is None or self.linked.nextPtr is None:
-            return
-        present = self.linked
-        next = None
-        temp = None
-        ret = None
-        while present is not None and present.nextPtr is not None:
-            next = present.nextPtr
-            present.nextPtr = next.nextPtr
-            next.nextPtr = present
-            if temp is None:
-                ret = next
-                temp = present
-            else:
-                temp.nextPtr = next
-                temp = present
-            present = present.nextPtr
-        
+    
     def count(self):
         loop = self.linked
         count = 0
@@ -79,8 +61,7 @@ class LinkedList:
             temp = temp.nextPtr
         return
 
-    # reverse using iterative way
-    
+    # reverse using iterative way    
     def reverse(self):
         current = self.linked
         nextNode = None
@@ -95,7 +76,6 @@ class LinkedList:
         return
 
     # Reverse using recurssion
-
     def reverse_recussion(self):
         def reverse(node):
             if node.nextPtr == None:
@@ -130,7 +110,8 @@ class LinkedList:
             return prev
         self.linked = reverse(self.linked,count)
 
-    # Reverse pair of node example : 1->2->3->4->5->6 then the function should change it to 2->1->4->3->6->5
+    # Reverse pair of node example : 1->2->3->4->5->6 then the
+    # function should change it to 2->1->4->3->6->5
 
     def reverse_pairs(self):
         if self.linked is None or self.linked.nextPtr is None:
@@ -293,7 +274,7 @@ def main():
     li.append(7)
     li.prints()
     print "after"
-    li.reverse_pairs()
+    li.reverse_only_k(3)
     li.prints()
    
 if __name__ == "__main__":main()

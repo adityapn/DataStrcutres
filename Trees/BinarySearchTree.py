@@ -42,12 +42,14 @@ class BinarySearchTree:
         
         
     def preorder(self):
-        def pre(node):
+        pre_nodes = []
+        def pre(node,li):
             if node is not None:
-                print(node.value)
-                pre(node.left)
-                pre(node.right)
-        pre(self.root)
+                li.append(node.value)
+                pre(node.left,li)
+                pre(node.right,li)
+        pre(self.root,pre_nodes)
+        return pre_nodes
         
     def postorder(self):
         li = []
@@ -211,20 +213,23 @@ class BinarySearchTree:
                 start = start + 1
             elif Sum > result:
                 end = end - 1
-    # Longest path in the tree                
+    # Longest path in the tree , Complxity O(n)         
     def diameter(self):
         that = self
         def find_diameter(node):
             if node is None:
-                return
-            left = that.height(node.left)
-            right = that.height(node.right)
+                return 0
 
+            left_height = that.height(node.left)
+            right_height = that.height(node.left)
             ldiameter = find_diameter(node.left)
             rdiameter = find_diameter(node.right)
+            
+            
             # left+right+1 passes through root and
             # ldiameter , rdiamter gives the one without passes through root
-            return max((left+right+1),max(ldiameter,rdiameter))
+            return max(left_height+right_height+1,ldiameter,rdiameter)
+        
         return find_diameter(self.root)
 
     def isBst(self):
@@ -421,6 +426,7 @@ class BinarySearchTree:
                 stack.append(temp_node.right)            
             if temp_node.left is not None:
                 stack.append(temp_node.left)
+
     
     # Printing tree using Post order [Iterative Way]
     def IterativePostorderTraversal(self):
@@ -572,8 +578,8 @@ def possibleBsts(number_of_elements):
         return elements_sum
 
 tree = BinarySearchTree()
-items = [-15,40,20,80,10,5,60,100]
+items = [4,2,1,3,6,5,7]
 for item in items:
     tree.add(item)
 
-tree.triplet()
+tree.postorder()
