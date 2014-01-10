@@ -10,6 +10,7 @@ class Trie:
             self.value = val
             self.keys = dict()
             self.isEnd = False
+
         def getChildren(self):
             return self.keys
         

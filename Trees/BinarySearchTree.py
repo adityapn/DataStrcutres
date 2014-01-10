@@ -74,7 +74,39 @@ class BinarySearchTree:
                 queue.put(temp.left)
             if temp.right is not None:
                 queue.put(temp.right)
+
+    # With Queue [Level Order] space complexity O(n)
+    def leftView(self):
+        queue = Queue.Queue()
+        queue.put(self.root)
+        print self.root.value
+        while queue:
+            try:
+                temp = queue.get_nowait()
+            except Exception:
+                break
+            if temp.left is not None:
+                print temp.left.value
+                queue.put(temp.left)
+            if temp.right is not None:
+                queue.put(temp.right)
+
+    # With recurssion way
+    def leftViewRecursive(self):
+        def left_view(node):
+            if node is None:
+                return
+            if node.left is not None:
+                print node.left.value
+                left_view(node.left)
                 
+            if node.right is not None:
+                left_view(node.right)
+
+        if self.root is not None:
+            print self.root.value
+            left_view(self.root)
+    
     def reverseorder(self):
         queue = Queue.Queue()
         stack = []
@@ -473,6 +505,24 @@ class BinarySearchTree:
             makeSum(node.right)
             
         makeSum(self.root)
+
+    # Find value at kth distance
+    #For example, in the below tree, 4, 5 & 8 are at distance 2 from root.
+    #        1
+    #      /   \
+    #    2      3
+    #  /  \    /
+    # 4     5  8 
+    def findPathAtKdistance(self,k):        
+        def kDistance(k,node,path):            
+            if node is not None:                
+                if k == 0:
+                    print node.value
+                    return 
+                kDistance(k-1,node.left,path)
+                kDistance(k-1,node.right,path)
+                
+        kDistance(k,self.root,"")
     
     # Find path between any two nodes in a binary search tree
     def findPathBetweenNodes(self,node1_val,node2_val):
@@ -514,6 +564,7 @@ class BinarySearchTree:
             print str(left_path)+" "+break_up_parent+"  -> "+str(right_path)
 
         find(self.root,node1_val,node2_val)
+        
 
     def triplet(self):
         # does an inorder traversal to ger numbers in sorted orders 
@@ -578,8 +629,8 @@ def possibleBsts(number_of_elements):
         return elements_sum
 
 tree = BinarySearchTree()
-items = [4,2,1,3,6,5,7]
+items = [12,10,30,25,40]
 for item in items:
     tree.add(item)
 
-tree.postorder()
+tree.leftViewRecursive()
